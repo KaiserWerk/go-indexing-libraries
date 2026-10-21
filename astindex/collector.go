@@ -1,6 +1,9 @@
 package astindex
 
-import "sort"
+import (
+	"sort"
+	"strconv"
+)
 
 type fileCollector struct {
 	path         string
@@ -42,7 +45,7 @@ func (c *fileCollector) addNode(node Node) Node {
 }
 
 func (c *fileCollector) addRelation(rel Relation) {
-	key := string(rel.Type) + "|" + rel.FromID + "|" + rel.ToID + "|" + rel.Location.Path + "|" + itoa(rel.Location.LineStart)
+	key := string(rel.Type) + "|" + rel.FromID + "|" + rel.ToID + "|" + rel.Location.Path + "|" + strconv.Itoa(rel.Location.LineStart)
 	if _, ok := c.relationSeen[key]; ok {
 		return
 	}
@@ -95,26 +98,4 @@ func makeNode(language Language, kind NodeKind, languageKind, name, fqn, signatu
 		ContextID:            contextID,
 		Span:                 span,
 	}
-}
-
-func itoa(v int) string {
-	if v == 0 {
-		return "0"
-	}
-	neg := v < 0
-	if neg {
-		v = -v
-	}
-	b := [20]byte{}
-	i := len(b)
-	for v > 0 {
-		i--
-		b[i] = byte('0' + v%10)
-		v /= 10
-	}
-	if neg {
-		i--
-		b[i] = '-'
-	}
-	return string(b[i:])
 }

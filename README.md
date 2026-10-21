@@ -124,6 +124,39 @@ Important fields include:
 - `Reference`: symbol usage site
 - `Call`: call location and candidate targets
 
+### Search-style summary output
+
+If you need a query-driven overview (relevant files, symbols, and call relationships), use:
+
+- `symbolindex.BuildSearchSummary(query, files, result)`
+- `symbolindex.FormatSearchSummary(summary)`
+
+Example:
+
+```go
+summary, err := symbolindex.BuildSearchSummary("auth", files, result)
+if err != nil {
+    panic(err)
+}
+fmt.Println(symbolindex.FormatSearchSummary(summary))
+```
+
+This produces output in the shape:
+
+```text
+Search: "auth"
+
+Relevant files:
+
+1. internal/app/auth/service.go
+   Symbols: Service, Service.AuthenticateRequest, Service.LoginWithPassword
+   Text matches: 4
+
+Relationships:
+  DoPasswordLogin
+    -> Service.LoginWithPassword
+```
+
 ### Notes
 
 - `Path` and `Content` are required for each file
