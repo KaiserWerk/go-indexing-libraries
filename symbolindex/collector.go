@@ -32,10 +32,6 @@ func (c *collector) addEdge(edge Edge) {
 	c.resultData.Edges = append(c.resultData.Edges, edge)
 }
 
-func (c *collector) addReference(ref Reference) {
-	c.resultData.References = append(c.resultData.References, ref)
-}
-
 func (c *collector) addCall(call Call) {
 	c.resultData.Calls = append(c.resultData.Calls, call)
 }
